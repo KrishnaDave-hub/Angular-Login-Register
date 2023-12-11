@@ -1,0 +1,2 @@
+.photoBox{display: block;width:500px;height: 500px;margin:20px auto;}
+.photoBox img{width: 100%;max-width: 500px !important;height: 500px !important;object-fit: cover;object-position: center;}

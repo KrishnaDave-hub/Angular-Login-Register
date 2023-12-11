@@ -1,0 +1,11 @@
+.cardWidth{max-width:1200px;width: 100%;}
+.formField,:host{
+  display: flex;
+  flex-direction:column !important;
+  align-items: flex-start;
+}
+.example-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+  

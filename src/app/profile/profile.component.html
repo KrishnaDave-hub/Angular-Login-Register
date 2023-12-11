@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="grid grid-rows-1 justify-items-center items-center">
+    <h2>Update Profile Photo</h2>
+    <input type="file" (change)="onFileSelected($event)" accept="image/*">
+    <div class="photoBox" *ngIf="selectedFileUrl">
+      <h3>Uploaded Image:</h3>
+      <img [src]="selectedFileUrl" alt="Uploaded Image">
+    </div>
+  </div>
+</div>

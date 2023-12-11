@@ -1,0 +1,113 @@
+<div class="container">
+  <div class="grid grid-flow-row justify-items-center items-center gap-2">
+    <div class="text-center text-2xl lg:text-3xl underline">{{title}}</div>
+    <div class="my-3 form-container">
+      <form [formGroup]="submit">
+        <mat-card class="cardWidth">
+          <mat-card-content>
+            <mat-stepper class="w-full"  formArrayName="formArray" [linear]="isLinear" [orientation]="(stepperOrientation | async)!">
+              <mat-step formGroupName="0" [stepControl]="formArray.controls[0]" label="Personal Info">
+                <div class="formField">
+                  <mat-form-field class="w-full">
+                    <mat-label>Enter Your Full-name</mat-label>
+                    <input matInput formControlName="fullname">
+                    <mat-error *ngIf="fullname.hasError('required')">
+                      Fullname is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="w-full">
+                    <mat-label>Enter Your Birth Date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="birthDate">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker">
+                      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="birthdate.hasError('required')">
+                      Birth-Date is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
+                  <label id="gender" class="w-full px-4 mt-4 text-base text-gray-600">Select Your Gender</label>
+                  <mat-radio-group formControlName="gender" aria-label="Select an option" class="px-3 mb-4">
+                    <mat-radio-button value="male">Male</mat-radio-button>
+                    <mat-radio-button value="female">Female</mat-radio-button>
+                  </mat-radio-group>
+                  <mat-form-field class="w-full">
+                    <mat-label>Email</mat-label>
+                    <input type="email" matInput formControlName="email" placeholder="Ex. pat@example.com">
+                    <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
+                      Please enter a valid email address
+                    </mat-error>
+                    <mat-error *ngIf="email.hasError('required')">
+                      Email is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="w-full">
+                    <mat-label>Enter your password</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="password.hasError('required')">
+                      Password is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
+                  <div>
+                    <button class="rounded-full bg-cyan-700 w-full p-3" matStepperNext>Next</button>
+                  </div>
+                </div>
+              </mat-step>
+              <mat-step formGroupName="1" [stepControl]="formArray.controls[1]" label="Education Info">
+                <div class="formField">
+                  <mat-form-field class="w-full">
+                    <mat-label>Choose Your Degree</mat-label>
+                    <mat-select formControlName="degrees" multiple>
+                      <mat-select-trigger>
+                        {{ degrees.value?.[0] || '' }}
+                        <ng-container *ngIf="(degrees.value?.length || 0) > 1">
+                          <span class="example-additional-selection">
+                            ( + {{ (degrees.value?.length || 0) - 1 }} {{ degrees.value?.length === 2 ? 'other' : 'others' }} )
+                          </span>
+                        </ng-container>
+                      </mat-select-trigger>
+                      <mat-option *ngFor="let degree of degreeList" [value]="degree">{{ degree }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <mat-form-field class="w-full">
+                  <mat-label>Other Details</mat-label>
+                  <input matInput formControlName="otherDetails" placeholder="Any certificate or award received." required>
+                  <mat-error *ngIf="otherDetails.hasError('required')">
+                    Details is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+                <div>
+                  <button class="rounded-full bg-cyan-700 w-auto p-3" matStepperPrevious>Back</button>
+                  <button class="rounded-full bg-cyan-700 w-auto ml-2 p-3" matStepperNext>Next</button>
+                </div>
+              </mat-step>
+              <mat-step>
+                <ng-template matStepLabel>Submit Your Data</ng-template>
+                <div>
+                  <button class="rounded-full bg-cyan-700 w-auto p-3" matStepperPrevious>Back</button>
+                  <button class="rounded-full bg-cyan-700 w-auto p-3 ml-3" (click)="onSubmit()">Submit</button>
+                </div>
+              </mat-step>
+            </mat-stepper>
+            <div class="ml-5" *ngIf="submittedData">
+              <h2>Review Your Form: </h2>
+              <p>Full Name: {{ submittedData.formArray[0].fullname }}</p>
+              <p>Birth Date: {{ submittedData.formArray[0].birthDate | date:'MM/dd/yyyy' }}</p>
+              <p>Gender: {{ submittedData.formArray[0].gender }}</p>
+              <p>Password: {{ submittedData.formArray[0].password }}</p>
+              <p>Email: {{ submittedData.formArray[0].email }}</p>
+              <p>Degrees: {{ submittedData.formArray[1].degrees }}</p>
+              <p>Other Details: {{ submittedData.formArray[1].otherDetails }}</p>
+              <!-- <pre>{{ submittedData | json }}</pre> -->
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</div>

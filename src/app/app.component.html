@@ -1,0 +1,10 @@
+<div class="grid grid-rows-auto grid-flow-row gap-4">
+  <div class="mt-10">
+    <span class="block w-full text-center text-2xl md:text-3xl lg:text-4xl font-extrabold"> {{title}} </span>
+  </div>
+  <router-outlet></router-outlet>
+  <div class="my-4 text-center flex flex-row gap-4 justify-center items-center">
+    <a class="text-xl link" routerLink="/register">Register Now</a>
+    <a class="text-xl link" routerLink="/login">Login Now</a>
+  </div>
+</div>
